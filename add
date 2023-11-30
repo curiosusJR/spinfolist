@@ -1,0 +1,30 @@
+#!/usr/bin/zsh
+cd tmp
+law=0;
+if [ $# -eq 11 ] 
+then
+	echo $1 > SF; echo $2 > SFe; echo $3 > TR; echo $4 > TRe; echo $5 > G; echo $6 > S; echo $7 > Ge; echo $8 > Se; echo $9 > NO; echo $10 > Pm;echo $11 > Pf;
+	law=1;
+elif [ $# -eq 9 ]
+then
+	echo $1 > SF; echo $2 > SFe; echo 0 > TR; echo 0 > TRe; echo $3 > G; echo $4 > S; echo $5 > Ge; echo $6 > Se; echo $7 > NO; echo $8 > Pm;echo $9 > Pf;
+	law=1;
+elif [ $# -eq 7 ]
+then
+	echo $1 > G; echo $2 > S; echo $3 > Ge; echo $4 > Se; echo $5 > NO; echo $6 > Pm;echo $7 > Pf;
+	law=1;
+elif [ $# -eq 5 ]
+then
+	echo $1 > S; echo $2 > Se; echo $3 > NO; echo $4 > Pm;echo $5 > Pf;
+	law=1;
+elif [ $# -eq 6 -a  "$2" = `cat Ge`  ]
+then
+	echo $1 > S; echo $3 > Se; echo $4 > NO; echo $5 > Pm;echo $6 > Pf;
+	law=1;
+fi
+if [ $law -eq 1 ];then
+	echo  "$(cat SF)\t$(cat SFe)\t$(cat TR)\t$(cat TRe)\t$(cat G)\t$(cat Ge)\t$(cat S)\t$(cat Se)\t$(cat NO)\t$(cat Pm)\t$(cat Pf)" >> ../list.csv
+else 
+	echo "Wrong INPUT: arg_num=$#!!"
+fi
+
