@@ -1,20 +1,16 @@
 # spinfolist
+**ONLY FOR TESTING**
 
-A helper for adding info of specimens from Shennongjia.
+A very simple helper for adding info of specimens from Shennongjia.
+(maybe it can get stronger in the future)
 
 USAGE:
 source start.sh
 
 (a)dd for adding info;
-(s)mry for show the general info
-(t)urnto for change parent info to listed species
+(s)mry for showing the general info
+(t)urnto for changing info to listed species
 
 exporting  sort.csv each time using add function.
-Use "0" to fill in unknown parameter.
 
-example: 
-add 大叶蝉亚科 Cicadellinae 0 0 条大叶蝉属 三齿条大叶蝉 Atkinsoniella tridentata 19,20,32 6 4 
-add 三齿条大叶蝉 tridentata 19,30,32 6 4
 
-turnto tri 19
-t tri
