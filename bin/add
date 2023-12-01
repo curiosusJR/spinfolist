@@ -1,6 +1,7 @@
 #!/usr/bin/zsh
 cd tmp
 law=0;
+
 if [ $# -eq 11 ] 
 then
 	echo $1 > SF; echo $2 > SFe; echo $3 > TR; echo $4 > TRe; echo $5 > G; echo $6 > S; echo $7 > Ge; echo $8 > Se; echo $9 > NO; echo $10 > Pm;echo $11 > Pf;
@@ -24,6 +25,7 @@ then
 fi
 if [ $law -eq 1 ];then
 	echo  "$(cat SF)\t$(cat SFe)\t$(cat TR)\t$(cat TRe)\t$(cat G)\t$(cat Ge)\t$(cat S)\t$(cat Se)\t$(cat NO)\t$(cat Pm)\t$(cat Pf)" >> ../list.csv
+	# echo  "Added $(cat SF) $(cat G) $(cat S) in location $(cat NO) with male: $(cat Pm), female: $(cat Pf)" | tee -a ../log/
 else 
 	echo "Wrong INPUT: arg_num=$#!!"
 fi
