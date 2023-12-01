@@ -1,0 +1,29 @@
+#!/usr/bin/zsh
+cd tmp
+
+
+j=1;
+case $# in 
+0)
+	for i in $(cat ../list.csv | fzf );
+	do
+		a[j]=$i;	 
+		((j=$j+1))
+	done
+	;;
+*)
+	query=$1
+	for i in $(cat ../list.csv | fzf -q $(echo $* | sed 's/ //g') );
+	do
+		a[j]=$i;	 
+		((j=$j+1))
+	done
+	;;
+esac
+
+
+echo $a[1] > SF; echo $a[2] > SFe; echo $a[3] > TR; echo $a[4] > TRe; echo $a[5] > G; echo $a[7] > S; 
+echo $a[6] > Ge; echo $a[8] > Se; echo $a[9] > NO; echo $a[10] > Pm; echo $a[11] > Pf;
+
+
+echo `cat SF; cat TR; cat G; cat S`

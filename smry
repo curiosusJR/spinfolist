@@ -1,8 +1,8 @@
 #!/usr/bin/zsh
 
-f=`more +2 list.csv | awk '{print $1}' | sort |uniq | wc -l`
-g=`more +2 list.csv | awk '{print $5}' | sort |uniq | wc -l`
-s=`more +2 list.csv | awk '{print $7}' | sort |uniq | wc -l`
+f=`more +2 list.csv | awk '{print $1}' |sort |uniq | wc -l`
+g=`more +2 list.csv | awk '{print $5}' |sort |uniq | wc -l`
+s=`more +2 list.csv | awk '{print $7}' |sort |uniq | wc -l`
 no=`more +2 list.csv | awk '{sum+=$10+$11}; END {print sum}'`
 echo "Total $s species (checking from $no specimens) in $g genera, $f subfamilies"
 echo "Current species is:"

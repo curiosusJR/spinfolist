@@ -1,0 +1,1 @@
+sed 1d list.csv | sort -d -k2,2 -k6,6
