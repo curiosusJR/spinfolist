@@ -1,0 +1,12 @@
+A helper for adding info of specimens from Shennongjia.
+
+USAGE:
+source start.sh
+
+(a)dd for adding info;
+(s)mry for show the general info
+(t)urnto for change parent info to listed species
+
+exporting  sort.csv each time using add function.
+
+
