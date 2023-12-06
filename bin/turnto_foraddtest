@@ -4,19 +4,16 @@ cd tmp
 
 j=1;
 case $# in 
-0)
-	for i in $(cat ../list.csv | fzf );
+2)
+	for i in $(cat ../list.csv | fzf -1 -q "$*" --bind load:accept);
 	do
 		a[j]=$i;	 
 		((j=$j+1))
 	done
 	;;
 *)
-	for i in $(cat ../list.csv | fzf -1 -q "$*" );
-	do
-		a[j]=$i;	 
-		((j=$j+1))
-	done
+	echo "turnto_foraddtest error!" | tee ../log/added.log
+	exit 1;
 	;;
 esac
 
@@ -24,4 +21,4 @@ if [ "$a[1]" != "" ]; then
 	echo $a[1] > SF; echo $a[2] > SFe; echo $a[3] > TR; echo $a[4] > TRe; echo $a[5] > G; echo $a[7] > S; 
 echo $a[6] > Ge; echo $a[8] > Se; echo $a[9] > NO; echo $a[10] > Pm; echo $a[11] > Pf;
 fi
-echo Turned to `cat SF ; cat TR ; cat G ; cat S` | tee ../log/added.log
+echo "Keep `cat SF; cat TR; cat G; cat S`" | tee ../log/added.log

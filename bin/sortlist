@@ -1,0 +1,24 @@
+#!/usr/bin/zsh
+
+rm sort.csv
+sed 1d list.csv | sort -d -k2,2 -k6,6 -k8,8 | while read line
+do
+	if [ "`echo $line | awk '{print $6,$7}'`" = "$ge $s" ]; 
+	then
+		sed -i '$d' sort.csv
+		echo $line | sed "s/[^\t]\+\t/$(echo `echo $line | awk '{print $9}'`,$no | sed 's/,/\n/g' | sort -n | uniq | xargs | sed 's/ /,/g' | sed 's/^0,//')\t/9" |
+			sed "s/[^\t]\+\t/$(expr `echo $line | awk '{print $10}'` + $pm)\t/10" |
+			sed "s/\t[^\t]\+/\t$(expr `echo $line | awk '{print $11}'` + $pf)/10" >> sort.csv
+		tail -1 sort.csv | read sf sfe tr tre g ge s se no pm pf
+	else
+		echo $line >> ./sort.csv
+		echo $line | read sf sfe tr tre g ge s se no pm pf
+	fi
+done
+sed -i "1i $(head -1 list.csv)" sort.csv 
+column -t sort.csv
+#{head -n 1 list.csv ; cat sort.csv | sort -d -k2,2 -k6,6 -k8,8} | column -t > ./sort.csv
+#
+#cat ../list.csv | grep -e `cat Ge` | grep `cat Se` | awk '{print $9}' 
+#echo `cat ../list.csv | grep -e `cat Ge` | grep `cat Se` | awk '{sum+=$10};END {print sum}' ` 
+#echo `cat ../list.csv | grep -e `cat Ge` | grep `cat Se` | awk '{sum+=$11};END {print sum}' ` 

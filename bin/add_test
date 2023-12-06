@@ -1,16 +1,31 @@
 #!/usr/bin/zsh
 cd tmp
-law=1;
+law=0;
+
 
 case $# in
 11) 
-	echo $1 > SF; echo $2 > SFe; echo $3 > TR; echo $4 > TRe; echo $5 > G; echo $6 > S; echo $7 > Ge; echo $8 > Se; echo $9 > NO; echo $10 > Pm;echo $11 > Pf
+	echo $1 > SF; echo $2 > SFe; echo $3 > TR; echo $4 > TRe; echo $5 > G; echo $6 > Ge; echo $7 > S; echo $8 > Se; echo $9 > NO; echo $10 > Pm;echo $11 > Pf
 	;;
 9)
-	echo $1 > SF; echo $2 > SFe; echo 0 > TR; echo 0 > TRe; echo $3 > G; echo $4 > S; echo $5 > Ge; echo $6 > Se; echo $7 > NO; echo $8 > Pm;echo $9 > Pf
+	echo $1 > SF; echo $2 > SFe; echo 0 > TR; echo 0 > TRe; echo $3 > G; echo $4 > Ge; echo $5 > S; echo $6 > Se; echo $7 > NO; echo $8 > Pm;echo $9 > Pf
 	;;
 7)
 	echo $1 > G; echo $2 > S; echo $3 > Ge; echo $4 > Se; echo $5 > NO; echo $6 > Pm;echo $7 > Pf
+	;;
+4)
+	echo 0 > *
+	echo $1 > SF; echo $2 > SFe; echo $3 > TR; echo $4 > TRe;
+	echo "Created Subfamily $1, Tribe $3"  | tee -a ../log/added.log
+	cd ..; ./bin/smry | tee -a ./log/added.log
+	exit 0;
+	;;
+2)
+	echo 0 > *
+	echo $1 > SF; echo $2 > SFe;
+	echo "Created Subfamily $1" | tee -a ../log/added.log
+	cd ..; ./bin/smry | tee -a ./log/added.log
+	exit 0;
 	;;
 5)
 	echo $1 > S; echo $2 > Se; echo $3 > NO; echo $4 > Pm;echo $5 > Pf
@@ -20,25 +35,56 @@ case $# in
 	then
 		echo $1 > S; echo $3 > Se; echo $4 > NO; echo $5 > Pm;echo $6 > Pf;
 	else
-		law=0;
+		echo "==============================="  | tee -a ../log/added.log
+		echo "Wrong INPUT: incompatible genus"  | tee -a ../log/added.log
+		echo "==============================="  | tee -a ../log/added.log
+ 		echo "WRONG info inputed is : $* [`date +%D\(%H:%M.%S\)`]" | tee -a ../log/added.log
+ 		echo "Current Genus should be `cat Ge`, But $2 inputted" | tee -a ../log/added.log
+		echo  ""| tee -a ../log/added.log
+		exit 1;
 	fi
 	;;
 *)
-	law=0;
-esac
-if [ $law -eq 1 ];then
-	echo  "$(cat SF)\t$(cat SFe)\t$(cat TR)\t$(cat TRe)\t$(cat G)\t$(cat Ge)\t$(cat S)\t$(cat Se)\t$(cat NO)\t$(cat Pm)\t$(cat Pf)" >> ../list.csv
-	echo  "[`date +%D\(%H:%M.%S\)`]::Added $(cat SF) $(cat G) $(cat S) in location $(cat NO) with male: $(cat Pm), female: $(cat Pf)" | tee -a ../log/added.log
-	cd ..
-	./bin/smry | tee -a ./log/added.log
-	echo  ""| tee -a ./log/added.log
-	{head -n 1 list.csv ; sed 1d list.csv | sort -d -k2,2 -k6,6 -k8,8} | column -t > ../sort.csv
-else 
 	echo "========================="  | tee -a ../log/added.log
 	echo "Wrong INPUT: arg_num=$#!!"  | tee -a ../log/added.log
 	echo "========================="  | tee -a ../log/added.log
 	echo "WRONG info inputed is : $* [`date +%D\(%H:%M.%S\)`]" | tee -a ../log/added.log
+ 	echo "You can input 5, 6, 7, 9 or 11 arguments" | tee -a ../log/added.log
 	echo  ""| tee -a ../log/added.log
 	exit 1
+esac
+
+if [ "$(cat ../list.csv | grep -e `cat Ge` | grep `cat Se`)" ]
+then
+	echo "Existed species: `cat S`. Current record is:" | tee -a ../log/added.log
+	cat ../list.csv | grep -e `cat Ge` | grep `cat Se` | tee -a ../log/added.log
+	echo "Continue adding?(y/n)"
+	while read yesorno
+	do
+		case $yesorno in
+		[yY]|[Yy][Ee][Ss])
+			echo "Additional `cat S`." | tee -a ../log/added.log
+			yesorno='yes'
+			break;
+			;;
+		[Nn]|[Nn][Oo])
+			echo "Abort!" | tee -a ../log/added.log
+			cd ..; 
+			./bin/turnto_foraddtest `cat tmp/Ge` `cat tmp/Se`
+			exit 0;
+			;;
+		*)
+			echo "Pardon?(y/n)"
+		esac
+	done
 fi
+
+echo  "$(cat SF)\t$(cat SFe)\t$(cat TR)\t$(cat TRe)\t$(cat G)\t$(cat Ge)\t$(cat S)\t$(cat Se)\t$(cat NO)\t$(cat Pm)\t$(cat Pf)" >> ../list.csv
+echo  "[`date +%D\(%H:%M.%S\)`]::Added $(cat SF) $(cat G) $(cat S) in location $(cat NO) with male: $(cat Pm), female: $(cat Pf)" | tee -a ../log/added.log
+	
+cd ..
+./bin/smry | tee -a ./log/added.log
+echo  ""| tee -a ./log/added.log
+
+
 

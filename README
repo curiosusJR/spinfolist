@@ -10,7 +10,8 @@ source start.sh
 (a)dd for adding info;
 (s)mry for showing the general info
 (t)urnto for changing info to listed species
+list (or sl) for sorting the species list
 
-exporting  sort.csv each time using add function.
+exporting sort.csv each time using list function.
 
 
